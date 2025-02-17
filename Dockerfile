@@ -7,6 +7,9 @@ RUN apt-get update && apt-get install -y \
     libbz2-dev \
     liblzma-dev \
     libz-dev \
+    libgl1-mesa-glx \
+    libpng-dev \ 
+    libwebp-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
