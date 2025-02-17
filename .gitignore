@@ -8,3 +8,4 @@ build/
 db/
 temp_ppocr.yaml
 .env
+.venv

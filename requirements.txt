@@ -1,4 +1,8 @@
 rapidocr_onnxruntime
 httpx
 fastapi
+numpy
+uvicorn
+pydantic
+cryptography
 # Note: If you are using GPU, you should add onnxruntime-gpu to the requirements
