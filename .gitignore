@@ -1,0 +1,10 @@
+.envrc
+dist/
+memos.egg-info/
+build/
+*.pyc
+.eggs/
+.vscode/
+db/
+temp_ppocr.yaml
+.env
