@@ -14,12 +14,16 @@ from PIL import Image
 import numpy as np
 from fastapi import FastAPI, Body, HTTPException
 from fastapi import Depends, status
+from fastapi import Request
 from fastapi.security import APIKeyHeader
 from pydantic import BaseModel, Field
 
 
 # Configure logger
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(message)s"
+    )
 logger = logging.getLogger(__name__)
 
 # 创建进程池
@@ -184,6 +188,19 @@ async def predict_base64(
     except Exception as e:
         logging.error(f"Error during OCR processing: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    # 获取 X-Real-IP 头部并获取当前时间
+    client_ip = request.headers.get("X-Real-IP", request.client.host)
+    time = logging.Formatter('%(asctime)s').formatTime(record=None)
+    response = await call_next(request)
+    
+    # 打印日志：包括时间、真实IP和请求的路径
+    logging.info(f"Time: {time} - IP: {client_ip} - {request.method} {request.url.path} - Status: {response.status_code}")
+    
+    return response
 
 
 shutdown_event = threading.Event()
